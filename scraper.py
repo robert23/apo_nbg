@@ -55,13 +55,13 @@ def createEntity(url):
 
 def siteScrape():
     result = []
-    url_parent_list = ["http://www.med-kolleg.de/apotheke/Bayern/N%FCrnberg%2C%20Mittelfr.html"]
+    url_parent_list = ['http://www.med-kolleg.de/apotheke/Bayern/N%FCrnberg%2C%20Mittelfr.html']
     url_list = []
     entity = {}
     b = 20
     e = 40
     while e < 860:
-        url_parent_list.append("http://www.med-kolleg.de/apotheke/Bayern/N%FCrnberg%2C%20Mittelfr" + str(b) + "/" + str(e) + ".html")
+        url_parent_list.append("http://www.med-kolleg.de/apotheke/Bayern/N%FCrnberg%2C%20Mittelfr/" + str(b) + "/" + str(e) + ".html")
         b += 20
         e += 20
     print "len(parents... ", len(url_parent_list), url_parent_list
@@ -85,8 +85,8 @@ def siteScrape():
     writeData(result)
 
 def writeData(result):
-    scraperwiki.sqlite.execute("drop table if exists apo_berlin_liste")
-    scraperwiki.sqlite.execute("create table apo_berlin_liste ( `location` text, `adresse` text, `plz` text, `ort` text, `telefon` text, `longitude` text, `latitude` text, `detail_url` text, `url` text, `uid` text)")
+    scraperwiki.sqlite.execute("drop table if exists apo_nbg_liste")
+    scraperwiki.sqlite.execute("create table apo_nbg_liste ( `location` text, `adresse` text, `plz` text, `ort` text, `telefon` text, `longitude` text, `latitude` text, `detail_url` text, `url` text, `uid` text)")
     scraperwiki.sqlite.commit()
     for i in range(len(result)):
         location = result[i]["location"]
@@ -101,7 +101,7 @@ def writeData(result):
         uid = getUid()
         data = {"adresse": adresse, "location": location, "plz": plz, "ort": ort, "telefon": telefon, "detail_url": detail_url, "url": url, "longitude": longitude, "latitude": latitude, "uid": uid}
         #print data
-        scraperwiki.sqlite.save(unique_keys=["location", "plz", "ort", "uid", "adresse"], data=data, table_name="apo_berlin_liste", verbose=10)
+        scraperwiki.sqlite.save(unique_keys=["location", "plz", "ort", "uid", "adresse"], data=data, table_name="apo_nbg_liste")
 
 def main():
     siteScrape()
